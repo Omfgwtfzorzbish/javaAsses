@@ -1,5 +1,6 @@
 package server.ass;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Main { 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
         HttpServer myServer = new HttpServer();
         Socket socket;
         ServerSocket serverSocket;
@@ -17,8 +18,6 @@ public class Main {
         String dirIn="";
         List<String> inputA = new ArrayList<String>(3);
         List<String> direc = new ArrayList<String>();
-        
-        String delimRslt="";
         
         if (args != null && args.length >= 1)
         {
@@ -58,10 +57,6 @@ public class Main {
                 System.out.println("Directory List: "); 
                //for(String s:direc){System.out.println(s);}
         }
-        
-        ExecutorService threadPool = Executors.newFixedThreadPool(3);
-        serverSocket = new ServerSocket(port);
-        System.out.println("Server listening at port " + port + "...");
 
         for(String s: direc)
             {boolean x = myServer.chkPthExt(s);
@@ -75,6 +70,12 @@ public class Main {
             {boolean x = myServer.chkPthReadable(s);
                 if(x==true){return;}else{System.err.println("path is not readable");System.exit(1);}
             }
+
+        ExecutorService threadPool = Executors.newFixedThreadPool(3);
+        serverSocket = new ServerSocket(port);
+        System.out.println("Server listening at port " + port + "...");
+
+     
 
         try 
         {

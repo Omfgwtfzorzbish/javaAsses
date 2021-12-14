@@ -17,14 +17,16 @@ public class Main {
         String dirIn="";
         List<String> inputA = new ArrayList<String>(3);
         List<String> direc = new ArrayList<String>();
-        Scanner delim = new Scanner (dirIn);
+        
+        String delimRslt="";
+        
         if (args != null && args.length >= 1)
         {
             for(String s:args)
             {
-            //System.out.println(s);
             inputA.add(s);
-            }             
+            }    
+            //for(String z:inputA){System.out.println(z);}         
                 if(inputA.contains("--port" )==true && inputA.contains("--docRoot")==false)
                 {//System.out.println(inList.get(inList.indexOf(s)+1));
                     port=Integer.valueOf(inputA.get(1));
@@ -32,26 +34,33 @@ public class Main {
                 }
                 else if(inputA.contains("--docRoot")== true && inputA.contains("--port")==false){
                     dirIn = inputA.get(1);
+                    Scanner delim = new Scanner (dirIn);
                     delim.useDelimiter(":");
                     while(delim.hasNext()){
-                        direc.add(delim.next());}
+                        String dirIn2=delim.next();
+                        direc.add(dirIn2);}
+                        delim.close();
                         }
 
-                else if (inputA.contains("--port") && inputA.contains("--docRoot")){
+                else if (inputA.contains("--port") ==true && inputA.contains("--docRoot")==true){
                         port = Integer.valueOf(inputA.get(1));
                         dirIn = inputA.get(3);
-                    delim.useDelimiter(":");
-                    while(delim.hasNext()){
-                        direc.add(delim.next());}
+                        //System.out.println(inputA);
+                        Scanner delim = new Scanner (dirIn);
+                        delim.useDelimiter(":");
+                        while(delim.hasNext()){
+                            String dirIn2=delim.next();
+                            direc.add(dirIn2);}
+                            delim.close();
                         } 
                 else{port=3000;direc.add("/target");}
                 
-                System.out.println("port: " +port); 
+               // System.out.println("port: " +port); 
                 System.out.println("Directory List: "); 
-                for(String s:direc){System.out.println(s);}
+               for(String s:direc){System.out.println(s);}
         }
-        delim.close();
         
+        /*
         ExecutorService threadPool = Executors.newFixedThreadPool(3);
         serverSocket = new ServerSocket(port);
         System.out.println("Server listening at port " + port + "...");
@@ -66,7 +75,7 @@ public class Main {
             }
 
         } finally{serverSocket.close();}
-
+        */
        
 
     }

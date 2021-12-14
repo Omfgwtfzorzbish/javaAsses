@@ -25,4 +25,9 @@ public class HttpServer {
     try{
         if(file.canRead()==true){ return true;}else{return false;}} catch(Exception e){System.err.println("problem with chk path readable");return false;}
     }
+
+
+
+
+
 }

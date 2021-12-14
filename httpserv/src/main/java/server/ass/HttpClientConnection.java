@@ -16,7 +16,8 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
-public class HttpClientConnection implements Runnable {
+public class HttpClientConnection implements Runnable 
+{
     private Socket socket;
     private int id;
     private List<String> dirList;
@@ -24,15 +25,17 @@ public class HttpClientConnection implements Runnable {
     private ArrayList<String> clientIn;
     private String rsName;
     
-    public HttpClientConnection(Socket socket, int id, List<String> dirList) {
+    public HttpClientConnection(Socket socket, int id, List<String> dirList) 
+    {
         this.socket = socket;
         this.id = id;
         this.dirList = dirList;
     }
     @Override
-    public void run() {
+    public void run() 
+    {
         HttpServer servCmd = new HttpServer();
-        HttpWriter htpwrite = new HttpWriter(socket.getOutputStream());
+        
         BufferedReader in = null;
         String line = "";
         System.out.println("Connection ID: " + id);
@@ -49,15 +52,17 @@ public class HttpClientConnection implements Runnable {
         while(delim.hasNext()){
             String dirIn2=delim.next();
             clientIn.add(dirIn2);}
+            
             delim.close();      //read client input
         
         
             rsName=clientIn.get(1);
-            if(rsName.equals("/")){rsName= "/index.html";}  //rRENAME TO INDEX
+            if(rsName.equals("/")){rsName= "/index.html";} else{return;}  //rRENAME TO INDEX
        // while (!"close".equals(line) && null != line) {
          //while (true) {
             //System.out.println("Client " + id + ": " + line);           
             try {
+                HttpWriter htpwrite = new HttpWriter(socket.getOutputStream());
                for(String s: dirList)
                {rsName = s + rsName;   //add directory name to searched file name
                 
@@ -88,10 +93,7 @@ public class HttpClientConnection implements Runnable {
                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
                    ImageIO.write(bImage,"png",bos);
                    byte [] data = bos.toByteArray();
-
-                    
-                    byte[] bytes = Files.readAllBytes(Paths.get(rsName));
-                    htpwrite.writeBytes(bytes);
+                   htpwrite.writeBytes(data);
                     htpwrite.writeString("HTTP/1.1 200 OK\r\n Content-Type: image//png \r\n" + rsName + " as bytes");
                     socket.close();  
                 }else{System.out.println("input not read");return;}
@@ -99,9 +101,6 @@ public class HttpClientConnection implements Runnable {
                 }  //closing bracket for FOR loop. check every directory described initially in main 
                 socket.close();
             } catch (Exception e) {
-                e.printStackTrace();
-                break;
-            } 
-        }
+                e.printStackTrace();} 
     }
 }

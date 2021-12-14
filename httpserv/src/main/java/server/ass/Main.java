@@ -14,7 +14,7 @@ public class Main {
         HttpServer myServer = new HttpServer();
         Socket socket;
         ServerSocket serverSocket;
-        Integer port = 0;
+        Integer port = 3000;
         String dirIn="";
         List<String> inputA = new ArrayList<String>(3);
         List<String> direc = new ArrayList<String>();

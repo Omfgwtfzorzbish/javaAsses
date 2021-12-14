@@ -7,18 +7,19 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class HttpServer {
+    public HttpServer(){};
     
-    public boolean chkPthExt(String s)  //chk is true
+    public boolean chkPthExt(String s)  //true if exists
     {Path path = Paths.get(s);
     if(Files.exists(path)){ return true;}else{return false;}
     }
 
-    public boolean chkIsDir(String s)  //chk is true
+    public boolean chkIsDir(String s)  //is directory if true
     {Path path = Paths.get(s);
     if(Files.isDirectory(path)){ return true;}else{return false;}
     }
 
-    public boolean chkPthReadable(String s)      
+    public boolean chkPthReadable(String s)      //is true if readable
     {Path path = Paths.get(s); 
     File file = path.toFile(); 
     try{

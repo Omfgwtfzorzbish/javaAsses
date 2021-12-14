@@ -8,9 +8,9 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Main {
-    
+public class Main { 
     public static void main(String[] args) {
+        HttpServer myServer = new HttpServer();
         Socket socket;
         ServerSocket serverSocket;
         Integer port = 0;
@@ -54,28 +54,39 @@ public class Main {
                             delim.close();
                         } 
                 else{port=3000;direc.add("/target");}
-                
-               // System.out.println("port: " +port); 
+                System.out.println("port: " +port); 
                 System.out.println("Directory List: "); 
-               for(String s:direc){System.out.println(s);}
+               //for(String s:direc){System.out.println(s);}
         }
         
-        /*
         ExecutorService threadPool = Executors.newFixedThreadPool(3);
         serverSocket = new ServerSocket(port);
         System.out.println("Server listening at port " + port + "...");
+
+        for(String s: direc)
+            {boolean x = myServer.chkPthExt(s);
+                if(x==true){return;}else{System.err.println("path does not exist");System.exit(1);}
+            }
+        for(String s: direc)
+            {boolean x = myServer.chkIsDir(s);
+                if(x==true){return;}else{System.err.println("path is not Directory");System.exit(1);}
+            }
+        for(String s: direc)
+            {boolean x = myServer.chkPthReadable(s);
+                if(x==true){return;}else{System.err.println("path is not readable");System.exit(1);}
+            }
 
         try 
         {
             while(true){
                 socket = serverSocket.accept();
                 int id = (int) (Math.random()*100);
-                HttpClientConnection worker = new HttpClientConnection(socket, id, inputFile);
+                HttpClientConnection worker = new HttpClientConnection(socket, id, direc);
                 threadPool.submit(worker);
             }
 
         } finally{serverSocket.close();}
-        */
+        
        
 
     }

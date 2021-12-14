@@ -5,6 +5,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main {
     
@@ -49,6 +51,24 @@ public class Main {
                 for(String s:direc){System.out.println(s);}
         }
         delim.close();
+        
+        ExecutorService threadPool = Executors.newFixedThreadPool(3);
+        serverSocket = new ServerSocket(port);
+        System.out.println("Server listening at port " + port + "...");
+
+        try 
+        {
+            while(true){
+                socket = serverSocket.accept();
+                int id = (int) (Math.random()*100);
+                HttpClientConnection worker = new HttpClientConnection(socket, id, inputFile);
+                threadPool.submit(worker);
+            }
+
+        } finally{serverSocket.close();}
+
+       
+
     }
     
 }

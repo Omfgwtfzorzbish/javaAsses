@@ -1,4 +1,4 @@
-package java.assess;
+package server.ass;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -11,12 +11,9 @@ public class Main {
     public static void main(String[] args) {
         Socket socket;
         ServerSocket serverSocket;
-        boolean inputChk = true;
         Integer port = 0;
-        String direcd = "";
-        String docR = "./static";
         String dirIn="";
-        List<String> inputA = new ArrayList<String>();
+        List<String> inputA = new ArrayList<String>(3);
         List<String> direc = new ArrayList<String>();
         Scanner delim = new Scanner (dirIn);
         if (args != null && args.length >= 1)
@@ -25,15 +22,13 @@ public class Main {
             {
             //System.out.println(s);
             inputA.add(s);
-            }
-            for(String s:inputA)
-                {
-                if(s.equals("--port" )&& inputA.contains("--docRoot")==false)
+            }             
+                if(inputA.contains("--port" )==true && inputA.contains("--docRoot")==false)
                 {//System.out.println(inList.get(inList.indexOf(s)+1));
-                    port=Integer.valueOf(inputA.get(inputA.indexOf(s)+1));
-                    direc.add("target");
+                    port=Integer.valueOf(inputA.get(1));
+                    direc.add("/target");
                 }
-                else if(s.equals("--docRoot")&& inputA.contains("--port")==false){
+                else if(inputA.contains("--docRoot")== true && inputA.contains("--port")==false){
                     dirIn = inputA.get(1);
                     delim.useDelimiter(":");
                     while(delim.hasNext()){
@@ -48,11 +43,12 @@ public class Main {
                         direc.add(delim.next());}
                         } 
                 else{port=3000;direc.add("/target");}
-                }
+                
                 System.out.println("port: " +port); 
                 System.out.println("Directory List: "); 
                 for(String s:direc){System.out.println(s);}
         }
+        delim.close();
     }
     
 }

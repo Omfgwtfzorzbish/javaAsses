@@ -1,4 +1,4 @@
-package java.assess;
+package server.ass;
 
 /**
  * Hello world!

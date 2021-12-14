@@ -69,13 +69,13 @@ public class HttpClientConnection implements Runnable
                 if (clientIn.contains("GET")==false) 
                 {   System.out.println("NOT A GET METHOD");
 
-                    htpwrite.writeString("HTTP/1.1 405 Method Not Allowed\r\n \r\n " + clientIn.get(0)+" not supported\r\n");
+                    htpwrite.writeString("HTTP/1.1 405 Method Not Allowed\r\n\r\n " + clientIn.get(0)+" not supported\r\n");
                     htpwrite.flush();
                     htpwrite.close();
                     socket.close();
                 } 
                 else if (servCmd.chkPthReadable(rsName)==false) 
-                {  htpwrite.writeString("HTTP/1.1 405 Method Not Allowed\r\n \r\n" + clientIn.get(1) + "not supported\r\n" ); socket.close();}
+                {  htpwrite.writeString("HTTP/1.1 404 Method Not Allowed\r\n\r\n" + clientIn.get(1) + "not found\r\n" ); socket.close();}
 
                 else if (servCmd.chkPthReadable(rsName)==true)
                 {
